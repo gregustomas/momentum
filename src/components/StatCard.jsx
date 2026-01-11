@@ -5,9 +5,9 @@ const colorMap = {
     bg: "bg-amber-50",
     text: "text-amber-500",
   },
-  blue: {
-    bg: "bg-blue-50",
-    text: "text-blue-500",
+  indigo: {
+    bg: "bg-indigo-50",
+    text: "text-indigo-500",
   },
   rose: {
     bg: "bg-rose-50",
