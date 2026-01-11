@@ -25,8 +25,15 @@ const UI = {
   },
 };
 
-function FocusCard({ title = "focus", time = 45, project, status = "active" }) {
+function FocusCard({
+  title = "focus",
+  time = 45,
+  actualTime,
+  project,
+  status = "active",
+}) {
   const ui = UI[status] ?? UI.active;
+  const showActual = status === "completed" && typeof actualTime === "number";
   return (
     <div className={ui.card}>
       <div className="flex items-start justify-between gap-4">
@@ -43,7 +50,17 @@ function FocusCard({ title = "focus", time = 45, project, status = "active" }) {
           {/* meta */}
           <div className={ui.meta}>
             <i className="fi fi-rr-clock"></i>
-            <span>{time} min</span>
+            <span>
+              {time} min
+              {showActual && (
+                <>
+                  <span className="mx-1 text-slate-300">→</span>
+                  <span className="text-slate-400">
+                    {actualTime} min actual
+                  </span>
+                </>
+              )}
+            </span>
           </div>
         </div>
         {/* right side */}

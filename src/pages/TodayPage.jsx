@@ -5,7 +5,7 @@ import FocusCard from "../components/FocusCard";
 const focuses = [
   { id: "1", title: "Focus1", time: 90, project: "Momentum", status: "active" },
   { id: "2", title: "Focus2", status: "skipped" },
-  { id: "3", title: "Focus3", time: 30, project: "Gym", status: "completed" },
+  { id: "3", title: "Focus3", time: 30, actualTime: 27, status: "completed" },
 ];
 
 function TodayPage() {
@@ -101,6 +101,7 @@ function TodayPage() {
                 key={f.id}
                 title={f.title}
                 time={f.time}
+                actualTime={f.actualTime}
                 project={f.project}
                 status={f.status}
               />
