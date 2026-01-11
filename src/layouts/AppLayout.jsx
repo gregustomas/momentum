@@ -5,9 +5,9 @@ import TopBar from "../components/TopBar";
 
 function AppLayout() {
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
       <div className="mx-auto flex max-w-6xl gap-6 px-4 py-6">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div className="flex-1">
           <TopBar />
           <main className="mt-6">
