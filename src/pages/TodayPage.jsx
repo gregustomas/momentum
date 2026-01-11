@@ -1,6 +1,6 @@
 import React from "react";
 import StatCard from "../components/StatCard";
-import Focus from "../components/Focus";
+import FocusCard from "../components/FocusCard";
 
 function TodayPage() {
   // return <div className="rounded-2xl bg-white p-6 shadow-sm">Today page</div>;
@@ -61,21 +61,21 @@ function TodayPage() {
             </p>
           </div>
         </div>
-        <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white shadow-sm">
+        <button className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white shadow-sm">
           <i className={"fi fi-rr-plus lucide lucide-plus w-4 h-4 mr-2"}></i>
           Add Focus
         </button>
       </div>
       <div className="space-y-4">
-        <Focus />
-        <Focus />
+        <FocusCard status="active" />
       </div>
       <div className="mt-8 pt-6 border-t border-slate-200">
         <h3 className="text-sm font-medium text-slate-500 mb-4">
           Completed & Skipped
         </h3>
         <div className="space-y-3">
-          <Focus />
+          <FocusCard status="skipped" />
+          <FocusCard status="completed" />
         </div>
       </div>
     </div>
