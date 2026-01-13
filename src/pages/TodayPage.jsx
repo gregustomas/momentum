@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import StatCard from "../components/StatCard";
 import FocusCard from "../components/FocusCard";
+import AddFocusModal from "../components/AddFocusModal";
 
 const focuses = [
   { id: "1", title: "Focus1", time: 90, project: "Momentum", status: "active" },
@@ -9,7 +10,9 @@ const focuses = [
 ];
 
 function TodayPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const activeFocuses = focuses.filter((f) => f.status === "active");
+  const activeCount = activeFocuses.length;
   const doneFocuses = focuses.filter(
     (f) => f.status === "skipped" || f.status === "completed"
   );
@@ -72,7 +75,10 @@ function TodayPage() {
             </p>
           </div>
         </div>
-        <button className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white shadow-sm">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white shadow-sm"
+        >
           <i className={"fi fi-rr-plus w-4 h-4 mr-2"}></i>
           Add Focus
         </button>
@@ -108,6 +114,11 @@ function TodayPage() {
             ))}
         </div>
       </div>
+      <AddFocusModal
+        activeCount={activeCount}
+        onClose={() => setIsModalOpen(false)}
+        open={isModalOpen}
+      />
     </div>
   );
 }
