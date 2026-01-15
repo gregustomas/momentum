@@ -3,12 +3,9 @@ import React, { useState } from "react";
 const modalContentClass =
   "bg-slate-50 fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg duration-200 sm:rounded-lg sm:max-w-md";
 
-const closeBtnStyle =
-  "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground";
-
 const labelStyle = "text-sm font-medium";
 
-function AddFocusModal({ activeCount = 0, onClose, open }) {
+function AddFocusModal({ activeCount = 0, onClose, open, onSubmit }) {
   const [dropOpen, setDropOpen] = useState(false);
   const [title, setTitle] = useState("");
   const isTitleValid = title.trim().length > 0;
@@ -17,26 +14,49 @@ function AddFocusModal({ activeCount = 0, onClose, open }) {
   const MAX_SLOTS = 3;
   const usedSlots = activeCount;
   const remainingSlots = Math.max(0, MAX_SLOTS - usedSlots);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!isTitleValid) return;
+
+    onSubmit?.({
+      title: title.trim(),
+      project: project ?? "No project",
+      time: minutes,
+    });
+
+    // reset UI po submitu (MVP)
+    setTitle("");
+    setProject(null);
+    setMinutes(45);
+    setDropOpen(false);
+    onClose?.();
+  }
+
   return (
-    <div className={`
+    <div
+      className={`
         fixed inset-0 z-50 bg-black/80
         transition-opacity duration-200 ease-in
         ${open ? "opacity-100" : "opacity-0 pointer-events-none"}
       `}
-      onClick={onClose}>
-      <div className={`
+      onClick={onClose}
+    >
+      <div
+        className={`
           ${modalContentClass}
           transition-all duration-200 ease-in
           ${open ? "opacity-100 scale-100" : "opacity-0 scale-95"}
         `}
-        onClick={(e) => e.stopPropagation()}>
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* title */}
         <div className="flex gap-2 items-center text-xl font-semibold tracking-tight">
-          <i class="fi fi-rr-bullseye text-indigo-500"></i>
+          <i className="fi fi-rr-bullseye text-indigo-500"></i>
           <h2>Add Today's Focus</h2>
         </div>
         {/* form */}
-        <form className="space-y-5 pt-2">
+        <form onSubmit={handleSubmit} className="space-y-5 pt-2">
           {/* focus title */}
           <div className="space-y-2">
             <label className={labelStyle}>What will you focus on?</label>
@@ -55,6 +75,7 @@ function AddFocusModal({ activeCount = 0, onClose, open }) {
             <label className={labelStyle}>Link to project (optional)</label>
             {/* select */}
             <button
+              type="button"
               onClick={(e) => {
                 e.preventDefault();
                 setDropOpen(!dropOpen);
@@ -63,7 +84,7 @@ function AddFocusModal({ activeCount = 0, onClose, open }) {
             >
               <span>{project ? project : "No project"}</span>
               <span>
-                <i class="fi fi-rr-angle-small-down"></i>
+                <i className="fi fi-rr-angle-small-down"></i>
               </span>
             </button>
             {/* dropdown */}
@@ -75,6 +96,7 @@ function AddFocusModal({ activeCount = 0, onClose, open }) {
                     return (
                       <button
                         key={option}
+                        type="button"
                         onClick={() => {
                           setProject(option);
                           setDropOpen(false);
@@ -87,7 +109,7 @@ function AddFocusModal({ activeCount = 0, onClose, open }) {
                       >
                         <span>{option}</span>
                         <span className="text-sm">
-                          <i class="fi fi-br-check"></i>
+                          <i className="fi fi-br-check"></i>
                         </span>
                       </button>
                     );
@@ -101,7 +123,7 @@ function AddFocusModal({ activeCount = 0, onClose, open }) {
             <div className="flex items-center justify-between">
               <label className={labelStyle}>Estimated time</label>
               <span className="flex gap-2 text-sm text-indigo-500 font-semibold items-center">
-                <i class="fi fi-rr-clock"></i>
+                <i className="fi fi-rr-clock"></i>
                 {minutes} min
               </span>
             </div>
@@ -145,7 +167,7 @@ function AddFocusModal({ activeCount = 0, onClose, open }) {
           {/* submit focus */}
           <button
             type="submit"
-            disabled={isTitleValid}
+            disabled={!isTitleValid}
             className={`
     w-full px-4 py-2 rounded-md text-white font-semibold text-sm h-11
     transition-colors
@@ -161,7 +183,7 @@ function AddFocusModal({ activeCount = 0, onClose, open }) {
         </form>
         {/* close btn */}
         <button onClick={onClose} className="absolute top-4 right-4">
-          <i class="fi fi-br-cross"></i>
+          <i className="fi fi-br-cross"></i>
         </button>
       </div>
     </div>
