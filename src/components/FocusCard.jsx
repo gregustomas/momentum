@@ -78,7 +78,7 @@ function FocusCard({
             onClick={handleClick}
             className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-8 rounded-md px-3 text-xs bg-slate-900 hover:bg-slate-800 text-white shadow-sm">
               <i className={"fi fi-rr-plus w-4 h-4 mr-2"}></i>
-              Start Focus
+              Start
             </button>
           </div>
         )}
