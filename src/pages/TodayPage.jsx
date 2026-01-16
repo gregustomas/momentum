@@ -47,17 +47,23 @@ function TodayPage() {
         alert("Max 3 active focuses");
         return prev;
       }
+
+      const newFocus = {
+        id: crypto.randomUUID(),
+        title,
+        project: project === "No project" ? null : project,
+        time,
+        status: "active",
+      };
+
+      return [newFocus, ...prev];
     });
+  }
 
-    const newFocus = {
-      id: crypto.randomUUID(),
-      title,
-      project: project === "No project" ? null : project,
-      time,
-      status: "active",
-    };
-
-    return [newFocus, ...prev];
+  function skipFocus(id) {
+    setFocuses((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, status: "skipped" } : f))
+    );
   }
 
   return (
@@ -128,6 +134,7 @@ function TodayPage() {
               project={f.project}
               status={f.status}
               handleClick={() => setIsModalOpen(true)}
+              handleSkip={() => skipFocus(f.id)}
             />
           ))}
       </div>
