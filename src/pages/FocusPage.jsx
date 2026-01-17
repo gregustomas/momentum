@@ -17,7 +17,7 @@ function formatTime(seconds) {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-function FocusPage({ title = "Focus", time=45 }) {
+function FocusPage({ title = "Focus", time = 45 }) {
   const [isActive, setIsActive] = useState(false);
   const totalSeconds = time * 60;
   const [remainingSeconds, setRemainingSeconds] = useState(totalSeconds);
@@ -37,6 +37,11 @@ function FocusPage({ title = "Focus", time=45 }) {
     return () => clearInterval(interval);
   }, [remainingSeconds, isActive]);
 
+  function reset() {
+    setIsActive(false);
+    setRemainingSeconds(totalSeconds);
+  }
+
   return (
     <div className="px-6 py-12 flex items-center justify-center w-full h-full inset-0 fixed bg-indigo-950 p-6 shadow-sm">
       <div className="flex flex-col items-center">
@@ -49,7 +54,9 @@ function FocusPage({ title = "Focus", time=45 }) {
           progress={0.0}
         />
         <div className="flex justify-center items-center gap-4 mt-12">
-          <button className={btnStyle}>
+          <button 
+          onClick={() => reset()}
+          className={btnStyle}>
             <i class="fi fi-rr-rotate-right"></i>
           </button>
           <button
