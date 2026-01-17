@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CircularTimer from "../components/CircularTimer";
+import { useFocuses } from "../contexts/FocusesContext";
 
 const btnStyle =
   "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border shadow-sm px-8 w-14 h-14 rounded-full border-slate-700 bg-transparent text-slate-400 hover:text-white hover:bg-white/10";
@@ -23,6 +24,10 @@ function FocusPage({ title = "Focus", time = 45 }) {
   const [remainingSeconds, setRemainingSeconds] = useState(totalSeconds);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const navigate = useNavigate();
+  const {focusId} = useParams()
+  const {focuses, completeFocus} = useFocuses();
+
+  const focus = focuses.find((f) => f.id === focusId)
 
   useEffect(() => {
     if (!isActive) return;

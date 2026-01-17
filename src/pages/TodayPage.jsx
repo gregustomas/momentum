@@ -2,30 +2,18 @@ import { useEffect, useState } from "react";
 import StatCard from "../components/StatCard";
 import FocusCard from "../components/FocusCard";
 import AddFocusModal from "../components/AddFocusModal";
-
-const DEFAULT_FOCUSES = [
-  { id: "1", title: "Focus1", time: 90, project: "Momentum", status: "active" },
-  { id: "2", title: "Focus2", status: "skipped" },
-  { id: "3", title: "Focus3", time: 30, actualTime: 27, status: "completed" },
-];
-
-const LS_KEY = "momentum_focuses_v1";
+import { useFocuses } from "../contexts/FocusesContext";
 
 function TodayPage() {
+  const {focuses, addFocus, skipFocus} = useFocuses();
+
   // focuses
-  const [focuses, setFocuses] = useState(() => {
-    const raw = localStorage.getItem(LS_KEY);
-    return raw ? JSON.parse(raw) : DEFAULT_FOCUSES;
-  });
   const activeFocuses = focuses.filter((f) => f.status === "active");
   const activeCount = activeFocuses.length;
   const doneFocuses = focuses.filter(
     (f) => f.status === "skipped" || f.status === "completed"
   );
-  // ukládání do LS když se změní focuses
-  useEffect(() => {
-    localStorage.setItem(LS_KEY, JSON.stringify(focuses));
-  }, [focuses]);
+  
   // date
   const date = new Date();
   const weekday = date.toLocaleDateString("cs-CZ", {
@@ -38,33 +26,6 @@ function TodayPage() {
   });
   // modal
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // CRUD
-  function addFocus({ title, project, time }) {
-    setFocuses((prev) => {
-      const activeNow = prev.filter((f) => f.status === "active").length;
-      if (activeNow >= 3) {
-        alert("Max 3 active focuses");
-        return prev;
-      }
-
-      const newFocus = {
-        id: crypto.randomUUID(),
-        title,
-        project: project === "No project" ? null : project,
-        time,
-        status: "active",
-      };
-
-      return [newFocus, ...prev];
-    });
-  }
-
-  function skipFocus(id) {
-    setFocuses((prev) =>
-      prev.map((f) => (f.id === id ? { ...f, status: "skipped" } : f))
-    );
-  }
 
   return (
     <div>
@@ -129,6 +90,7 @@ function TodayPage() {
           activeFocuses.map((f) => (
             <FocusCard
               key={f.id}
+              id={f.id}
               title={f.title}
               time={f.time}
               project={f.project}
@@ -146,6 +108,7 @@ function TodayPage() {
             doneFocuses.map((f) => (
               <FocusCard
                 key={f.id}
+                id={f.id}
                 title={f.title}
                 time={f.time}
                 actualTime={f.actualTime}
