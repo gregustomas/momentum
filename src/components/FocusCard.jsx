@@ -60,7 +60,7 @@ function FocusCard({
                 <>
                   <span className="mx-1 text-slate-300">→</span>
                   <span className="text-slate-400">
-                    {actualTime} min actual
+                    {Math.floor(actualTime)} min actual
                   </span>
                 </>
               )}

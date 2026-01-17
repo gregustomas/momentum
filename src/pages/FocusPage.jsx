@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CircularTimer from "../components/CircularTimer";
 import { useFocuses } from "../contexts/FocusesContext";
@@ -18,16 +18,18 @@ function formatTime(seconds) {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-function FocusPage({ title = "Focus", time = 45 }) {
+function FocusPage() {
+  const { focusId } = useParams();
+  const { focuses, completeFocus } = useFocuses();
+  const navigate = useNavigate();
+  const focus = useMemo(
+    () => focuses.find((f) => f.id === focusId),
+    [focuses, focusId]
+  );
   const [isActive, setIsActive] = useState(false);
-  const totalSeconds = time * 60;
+  const totalSeconds = focus.time * 60;
   const [remainingSeconds, setRemainingSeconds] = useState(totalSeconds);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
-  const navigate = useNavigate();
-  const {focusId} = useParams()
-  const {focuses, completeFocus} = useFocuses();
-
-  const focus = focuses.find((f) => f.id === focusId)
 
   useEffect(() => {
     if (!isActive) return;
@@ -55,7 +57,7 @@ function FocusPage({ title = "Focus", time = 45 }) {
     <div className="px-6 py-12 flex items-center justify-center w-full h-full inset-0 fixed bg-indigo-950 p-6 shadow-sm">
       <div className="flex flex-col items-center">
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-12 max-w-xl text-center mx-auto leading-tight">
-          {title}
+          {focus.title}
         </h1>
         <CircularTimer
           timeText={formatTime(remainingSeconds)}
@@ -76,7 +78,9 @@ function FocusPage({ title = "Focus", time = 45 }) {
               <i class="fi fi-sr-play"></i>
             )}
           </button>
-          <button className={btnStyle}>
+          <button 
+          onClick={() => {completeFocus(focus.id, elapsedSeconds / 60); navigate("/")}}
+          className={btnStyle}>
             <i class="fi fi-br-check"></i>
           </button>
         </div>
