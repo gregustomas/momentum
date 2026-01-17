@@ -133,7 +133,6 @@ function TodayPage() {
               time={f.time}
               project={f.project}
               status={f.status}
-              handleClick={() => setIsModalOpen(true)}
               handleSkip={() => skipFocus(f.id)}
             />
           ))}

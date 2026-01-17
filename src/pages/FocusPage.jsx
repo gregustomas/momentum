@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CircularTimer from "../components/CircularTimer";
 
 const btnStyle =
@@ -21,6 +21,8 @@ function FocusPage({ title = "Focus", time = 45 }) {
   const [isActive, setIsActive] = useState(false);
   const totalSeconds = time * 60;
   const [remainingSeconds, setRemainingSeconds] = useState(totalSeconds);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isActive) return;
@@ -32,6 +34,7 @@ function FocusPage({ title = "Focus", time = 45 }) {
 
     const interval = setInterval(() => {
       setRemainingSeconds((prev) => prev - 1);
+      setElapsedSeconds((prev) => prev + 1);
     }, 1000);
 
     return () => clearInterval(interval);
@@ -40,6 +43,7 @@ function FocusPage({ title = "Focus", time = 45 }) {
   function reset() {
     setIsActive(false);
     setRemainingSeconds(totalSeconds);
+    setElapsedSeconds(0);
   }
 
   return (
@@ -54,9 +58,7 @@ function FocusPage({ title = "Focus", time = 45 }) {
           progress={0.0}
         />
         <div className="flex justify-center items-center gap-4 mt-12">
-          <button 
-          onClick={() => reset()}
-          className={btnStyle}>
+          <button onClick={() => reset()} className={btnStyle}>
             <i class="fi fi-rr-rotate-right"></i>
           </button>
           <button
@@ -73,10 +75,15 @@ function FocusPage({ title = "Focus", time = 45 }) {
             <i class="fi fi-br-check"></i>
           </button>
         </div>
-        <p className="text-sm text-slate-500 mt-8">Time elapsed: 02:40</p>
+        <p className="text-sm text-slate-500 mt-8">
+          Time elapsed: {formatTime(elapsedSeconds)}
+        </p>
       </div>
 
-      <button className="absolute top-4 right-4 text-slate-400">
+      <button
+        onClick={() => navigate("/")}
+        className="absolute top-4 right-4 text-slate-400"
+      >
         <i className="fi fi-br-cross"></i>
       </button>
     </div>
