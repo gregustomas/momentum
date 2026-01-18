@@ -5,7 +5,7 @@ import AddFocusModal from "../components/AddFocusModal";
 import { useFocuses } from "../contexts/FocusesContext";
 
 function TodayPage() {
-  const {focuses, addFocus, skipFocus} = useFocuses();
+  const { focuses, addFocus, skipFocus } = useFocuses();
 
   // focuses
   const activeFocuses = focuses.filter((f) => f.status === "active");
@@ -13,7 +13,9 @@ function TodayPage() {
   const doneFocuses = focuses.filter(
     (f) => f.status === "skipped" || f.status === "completed"
   );
-  
+
+  const totalMinutes = Math.floor(countTotalMinutes());
+
   // date
   const date = new Date();
   const weekday = date.toLocaleDateString("cs-CZ", {
@@ -26,6 +28,12 @@ function TodayPage() {
   });
   // modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function countTotalMinutes() {
+    return doneFocuses.reduce((sum, f) => {
+      return sum + (f.actualTime || 0);
+    }, 0);
+  }
 
   return (
     <div>
@@ -41,7 +49,7 @@ function TodayPage() {
         </div>
         <div className="flex items-center gap-6">
           <StatCard
-            value={1}
+            value={doneFocuses.length}
             total={3}
             color={"indigo"}
             label={"Completed"}
@@ -54,9 +62,9 @@ function TodayPage() {
             icon={"fi-rr-fire-flame-curved"}
           />
           <StatCard
-            value={1}
+            value={totalMinutes}
             color={"emerald"}
-            label={"Completed"}
+            label={"min today"}
             icon={"fi-rr-clock"}
           />
         </div>
