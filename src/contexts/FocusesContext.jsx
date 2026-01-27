@@ -17,11 +17,19 @@ export function FocusesProvider({ children }) {
     const raw = localStorage.getItem(LS_KEY);
     return raw ? JSON.parse(raw) : DEFAULT_FOCUSES;
   });
+  const [streak, setStreak] = useState(() => {
+    const raw = localStorage.getItem(LS_STREAK_KEY);
+    return raw ? Number(raw) : 0;
+  });
 
   // ukládání do LS když se změní focuses
   useEffect(() => {
     localStorage.setItem(LS_KEY, JSON.stringify(focuses));
   }, [focuses]);
+
+  useEffect(() => {
+    localStorage.setItem(LS_STREAK_KEY, String(streak));
+  }, [streak]);
 
   // day update
   function getTodayKey() {
@@ -32,11 +40,29 @@ export function FocusesProvider({ children }) {
     const savedDay = localStorage.getItem(LS_DAY_KEY);
     const today = getTodayKey();
 
-    if(savedDay != today){
-      localStorage.setItem(LS_DAY_KEY, today)
+    if (savedDay != today) {
+      handleDayChange();
+      localStorage.setItem(LS_DAY_KEY, today);
     }
   }, []);
 
+  function isDaySuccess(focuses) {
+    return focuses.some((f) => f.status === "completed");
+  }
+
+  function handleDayChange() {
+    const success = isDaySuccess(focuses);
+
+    if (success) {
+      setStreak((prev) => prev + 1);
+    } else {
+      setStreak(0);
+    }
+
+    setFocuses([]);
+  }
+
+  // focus CRUD
   function addFocus({ title, project, time }) {
     setFocuses((prev) => {
       const activeNow = prev.filter((f) => f.status === "active").length;
@@ -73,7 +99,7 @@ export function FocusesProvider({ children }) {
 
   return (
     <FocusesContext.Provider
-      value={{ focuses, addFocus, skipFocus, completeFocus }}
+      value={{ focuses, addFocus, skipFocus, completeFocus, streak }}
     >
       {children}
     </FocusesContext.Provider>

@@ -5,7 +5,7 @@ import AddFocusModal from "../components/AddFocusModal";
 import { useFocuses } from "../contexts/FocusesContext";
 
 function TodayPage() {
-  const { focuses, addFocus, skipFocus } = useFocuses();
+  const { focuses, addFocus, skipFocus, streak } = useFocuses();
 
   // focuses
   const activeFocuses = focuses.filter((f) => f.status === "active");
@@ -56,7 +56,7 @@ function TodayPage() {
             icon={"fi-rr-bullseye"}
           />
           <StatCard
-            value={1}
+            value={streak}
             color={"amber"}
             label={"Day streak"}
             icon={"fi-rr-fire-flame-curved"}
