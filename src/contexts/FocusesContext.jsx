@@ -7,6 +7,8 @@ const DEFAULT_FOCUSES = [
 ];
 
 const LS_KEY = "momentum_focuses_v1";
+const LS_DAY_KEY = "momentum_current_day";
+const LS_STREAK_KEY = "momentum_streak";
 
 const FocusesContext = createContext(null);
 
@@ -20,6 +22,20 @@ export function FocusesProvider({ children }) {
   useEffect(() => {
     localStorage.setItem(LS_KEY, JSON.stringify(focuses));
   }, [focuses]);
+
+  // day update
+  function getTodayKey() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  useEffect(() => {
+    const savedDay = localStorage.getItem(LS_DAY_KEY);
+    const today = getTodayKey();
+
+    if(savedDay != today){
+      localStorage.setItem(LS_DAY_KEY, today)
+    }
+  }, []);
 
   function addFocus({ title, project, time }) {
     setFocuses((prev) => {
