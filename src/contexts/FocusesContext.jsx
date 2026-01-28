@@ -15,7 +15,7 @@ const FocusesContext = createContext(null);
 export function FocusesProvider({ children }) {
   const [focuses, setFocuses] = useState(() => {
     const raw = localStorage.getItem(LS_KEY);
-    return raw ? JSON.parse(raw) : DEFAULT_FOCUSES;
+    return raw ? JSON.parse(raw) : [];
   });
   const [streak, setStreak] = useState(() => {
     const raw = localStorage.getItem(LS_STREAK_KEY);

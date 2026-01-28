@@ -93,39 +93,60 @@ function TodayPage() {
         </button>
       </div>
       {/* focuses list */}
-      <div className="space-y-4">
-        {activeFocuses.length > 0 &&
-          activeFocuses.map((f) => (
-            <FocusCard
-              key={f.id}
-              id={f.id}
-              title={f.title}
-              time={f.time}
-              project={f.project}
-              status={f.status}
-              handleSkip={() => skipFocus(f.id)}
-            />
-          ))}
-      </div>
-      <div className="mt-8 pt-6 border-t border-slate-200">
-        <h3 className="text-sm font-medium text-slate-500 mb-4">
-          Completed & Skipped
-        </h3>
-        <div className="space-y-3">
-          {doneFocuses.length > 0 &&
-            doneFocuses.map((f) => (
-              <FocusCard
-                key={f.id}
-                id={f.id}
-                title={f.title}
-                time={f.time}
-                actualTime={f.actualTime}
-                project={f.project}
-                status={f.status}
-              />
-            ))}
+      {activeCount > 0 ? (
+        <div>
+          <div className="space-y-4">
+            {activeFocuses.length > 0 &&
+              activeFocuses.map((f) => (
+                <FocusCard
+                  key={f.id}
+                  id={f.id}
+                  title={f.title}
+                  time={f.time}
+                  project={f.project}
+                  status={f.status}
+                  handleSkip={() => skipFocus(f.id)}
+                />
+              ))}
+          </div>
+          <div className="mt-8 pt-6 border-t border-slate-200">
+            <h3 className="text-sm font-medium text-slate-500 mb-4">
+              Completed & Skipped
+            </h3>
+            <div className="space-y-3">
+              {doneFocuses.length > 0 &&
+                doneFocuses.map((f) => (
+                  <FocusCard
+                    key={f.id}
+                    id={f.id}
+                    title={f.title}
+                    time={f.time}
+                    actualTime={f.actualTime}
+                    project={f.project}
+                    status={f.status}
+                  />
+                ))}
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-col justify-center items-center text-center py-16">
+          <div className="w-20 h-20 text-3xl mx-auto mb-6 rounded-2xl bg-slate-100 flex items-center justify-center">
+            <i className="fi fi-rr-sparkles lucide lucide-sparkles text-slate-300"></i>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-slate-900 mb-2">
+              What will you focus on today?
+            </h3>
+            <p className="text-slate-500 mb-6 max-w-sm mx-auto">Add up to 3 focus tasks. Each should be achievable in 30-90 minutes.</p>
+            <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white">
+              <i className="fi fi-rr-plus"></i>
+              Add Your First Focus
+            </button>
+          </div>
+        </div>
+      )}
+
       <AddFocusModal
         activeCount={activeCount}
         onClose={() => setIsModalOpen(false)}
