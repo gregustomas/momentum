@@ -92,7 +92,7 @@ function TodayPage() {
         />
       </div>
       {/* focuses list */}
-      {activeCount > 0 ? (
+      {focuses.length > 0 ? (
         <div>
           <div className="space-y-4">
             {activeFocuses.length > 0 &&
