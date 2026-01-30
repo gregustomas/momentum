@@ -85,15 +85,15 @@ export function FocusesProvider({ children }) {
 
   function skipFocus(id) {
     setFocuses((prev) =>
-      prev.map((f) => (f.id === id ? { ...f, status: "skipped" } : f))
+      prev.map((f) => (f.id === id ? { ...f, status: "skipped" } : f)),
     );
   }
 
   function completeFocus(id, actualTime) {
     setFocuses((prev) =>
       prev.map((f) =>
-        f.id === id ? { ...f, status: "completed", actualTime } : f
-      )
+        f.id === id ? { ...f, status: "completed", actualTime } : f,
+      ),
     );
   }
 

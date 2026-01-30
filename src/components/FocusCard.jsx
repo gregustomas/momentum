@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "./Button";
 
 // status styles
 const UI = {
@@ -33,7 +34,7 @@ function FocusCard({
   actualTime,
   project,
   status = "active",
-  handleSkip
+  handleSkip,
 }) {
   const ui = UI[status] ?? UI.active;
   const showActual = status === "completed" && typeof actualTime === "number";
@@ -71,17 +72,18 @@ function FocusCard({
         {/* active */}
         {status === "active" && (
           <div className="flex gap-2 items-center">
-            <button 
-            onClick={handleSkip}
-            className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-8 rounded-md px-3 text-slate-400 hover:text-slate-600 hover:bg-slate-100">
+            <button
+              onClick={handleSkip}
+              className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-8 rounded-md px-3 text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+            >
               <i className="fi fi-rr-play-pause"></i>
             </button>
-            <button 
-            onClick={() => navigate(`/focus/${id}`)}
-            className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-8 rounded-md px-3 text-xs bg-slate-900 hover:bg-slate-800 text-white shadow-sm">
-              <i className={"fi fi-rr-plus w-4 h-4 mr-2"}></i>
-              Start
-            </button>
+            <Button
+              onClick={() => navigate(`/focus/${id}`)}
+              children="Start"
+              icon={<i className={"fi fi-rr-plus w-4 h-4 mr-2"}></i>}
+              size="small"
+            />
           </div>
         )}
         {/* skipped */}

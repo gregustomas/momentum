@@ -3,6 +3,7 @@ import StatCard from "../components/StatCard";
 import FocusCard from "../components/FocusCard";
 import AddFocusModal from "../components/AddFocusModal";
 import { useFocuses } from "../contexts/FocusesContext";
+import Button from "../components/Button";
 
 function TodayPage() {
   const { focuses, addFocus, skipFocus, streak } = useFocuses();
@@ -11,7 +12,7 @@ function TodayPage() {
   const activeFocuses = focuses.filter((f) => f.status === "active");
   const activeCount = activeFocuses.length;
   const doneFocuses = focuses.filter(
-    (f) => f.status === "skipped" || f.status === "completed"
+    (f) => f.status === "skipped" || f.status === "completed",
   );
 
   const totalMinutes = Math.floor(countTotalMinutes());
@@ -84,13 +85,11 @@ function TodayPage() {
             </p>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setIsModalOpen(true)}
-          className="cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white shadow-sm"
-        >
-          <i className={"fi fi-rr-plus w-4 h-4 mr-2"}></i>
-          Add Focus
-        </button>
+          icon={<i className={"fi fi-rr-plus w-4 h-4 mr-2"}></i>}
+          children="Add Focus"
+        />
       </div>
       {/* focuses list */}
       {activeCount > 0 ? (
@@ -138,11 +137,16 @@ function TodayPage() {
             <h3 className="text-xl font-semibold text-slate-900 mb-2">
               What will you focus on today?
             </h3>
-            <p className="text-slate-500 mb-6 max-w-sm mx-auto">Add up to 3 focus tasks. Each should be achievable in 30-90 minutes.</p>
-            <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 shadow h-9 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white">
-              <i className="fi fi-rr-plus"></i>
-              Add Your First Focus
-            </button>
+            <p className="text-slate-500 mb-6 max-w-sm mx-auto">
+              Add up to 3 focus tasks. Each should be achievable in 30-90
+              minutes.
+            </p>
+            <Button
+              onClick={() => setIsModalOpen(true)}
+              icon={<i className="fi fi-rr-plus"></i>}
+              children="Add Your First Focus"
+              variant="indigo"
+            />
           </div>
         </div>
       )}
