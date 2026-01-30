@@ -39,7 +39,7 @@ function TodayPage() {
   return (
     <div>
       {/* header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col-reverse items-start gap-4 justify-between mb-8 md:flex-row items-center">
         <div className="block">
           <p className="text-sm font-medium text-slate-500 mb-1 capitalize">
             {weekday}
