@@ -81,7 +81,7 @@ function FocusCard({
             <Button
               onClick={() => navigate(`/focus/${id}`)}
               children="Start"
-              icon={<i className={"fi fi-rr-plus w-4 h-4 mr-2"}></i>}
+              icon={<i className={"fi fi-rr-play w-4 h-4 mr-2"}></i>}
               size="small"
             />
           </div>
