@@ -9,7 +9,7 @@ Momentum je jednoduchá productivity web appka pro správu denních focus bloků
 - Ukládání dat do localStorage
 
 ## 🚀 Live Demo
-[link po deployi]
+https://momentum.vercel.app/
 
 ## 🛠 Tech Stack
 - React
