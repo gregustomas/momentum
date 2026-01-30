@@ -6,6 +6,8 @@ const DEFAULT_FOCUSES = [
   { id: "3", title: "Focus3", time: 30, actualTime: 27, status: "completed" },
 ];
 
+const DEFAULT_PROJECTS = ["Work", "Study", "Personal"];
+
 const LS_KEY = "momentum_focuses_v1";
 const LS_DAY_KEY = "momentum_current_day";
 const LS_STREAK_KEY = "momentum_streak";
@@ -99,7 +101,14 @@ export function FocusesProvider({ children }) {
 
   return (
     <FocusesContext.Provider
-      value={{ focuses, addFocus, skipFocus, completeFocus, streak }}
+      value={{
+        focuses,
+        addFocus,
+        skipFocus,
+        completeFocus,
+        streak,
+        DEFAULT_PROJECTS,
+      }}
     >
       {children}
     </FocusesContext.Provider>

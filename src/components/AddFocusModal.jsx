@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useFocuses } from "../contexts/FocusesContext";
 
 const modalContentClass =
   "bg-slate-50 fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg duration-200 sm:rounded-lg sm:max-w-md";
@@ -6,6 +7,7 @@ const modalContentClass =
 const labelStyle = "text-sm font-medium";
 
 function AddFocusModal({ activeCount = 0, onClose, open, onSubmit }) {
+  const { DEFAULT_PROJECTS } = useFocuses();
   const [dropOpen, setDropOpen] = useState(false);
   const [title, setTitle] = useState("");
   const isTitleValid = title.trim().length > 0;
@@ -90,31 +92,29 @@ function AddFocusModal({ activeCount = 0, onClose, open, onSubmit }) {
             {/* dropdown */}
             {dropOpen && (
               <div className="border space-y-1 p-2 rounded-md border-slate-200 border-input shadow-md ${}">
-                {["No project", "project1", "project2", "project3"].map(
-                  (option) => {
-                    const isSelected = option === project;
-                    return (
-                      <button
-                        key={option}
-                        type="button"
-                        onClick={() => {
-                          setProject(option);
-                          setDropOpen(false);
-                        }}
-                        className={`
+                {DEFAULT_PROJECTS.map((option) => {
+                  const isSelected = option === project;
+                  return (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => {
+                        setProject(option);
+                        setDropOpen(false);
+                      }}
+                      className={`
         flex w-full items-center justify-between px-2 py-1.5 text-sm rounded
         transition-colors
         ${isSelected ? "bg-slate-200 text-slate-900" : "hover:bg-slate-100"}
       `}
-                      >
-                        <span>{option}</span>
-                        <span className="text-sm">
-                          <i className="fi fi-br-check"></i>
-                        </span>
-                      </button>
-                    );
-                  }
-                )}
+                    >
+                      <span>{option}</span>
+                      <span className="text-sm">
+                        {isSelected ? <i className="fi fi-br-check"></i> : null}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
