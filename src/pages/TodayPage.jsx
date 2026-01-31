@@ -14,6 +14,8 @@ function TodayPage() {
   const doneFocuses = focuses.filter(
     (f) => f.status === "skipped" || f.status === "completed",
   );
+  const completedFocuses = focuses.filter((f) => f.status === "completed");
+  const completedCount = completedFocuses.length;
 
   const totalMinutes = Math.floor(countTotalMinutes());
 
@@ -39,7 +41,7 @@ function TodayPage() {
   return (
     <div>
       {/* header */}
-      <div className="flex flex-col-reverse items-start gap-4 justify-between mb-8 md:flex-row items-center">
+      <div className="flex flex-col-reverse items-start gap-4 justify-between mb-8 md:flex-row">
         <div className="block">
           <p className="text-sm font-medium text-slate-500 mb-1 capitalize">
             {weekday}
@@ -50,7 +52,7 @@ function TodayPage() {
         </div>
         <div className="flex items-center gap-6">
           <StatCard
-            value={doneFocuses.length}
+            value={completedCount}
             total={3}
             color={"indigo"}
             label={"Completed"}
